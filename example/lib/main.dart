@@ -81,12 +81,14 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               color: Colors.deepPurple,
               child: VirtualKeyboard(
-                  height: 300,
-                  textColor: Colors.white,
-                  type: isNumericMode
-                      ? VirtualKeyboardType.Numeric
-                      : VirtualKeyboardType.Alphanumeric,
-                  textController: _controllerText),
+                height: 300,
+                textColor: Colors.white,
+                type: isNumericMode
+                    ? VirtualKeyboardType.Numeric
+                    : VirtualKeyboardType.Alphanumeric,
+                textController: _controllerText,
+                visualFeedback: false,
+              ),
             )
           ],
         ),

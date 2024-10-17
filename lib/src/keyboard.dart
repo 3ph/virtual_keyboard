@@ -29,16 +29,20 @@ class VirtualKeyboard extends StatefulWidget {
   /// Set to true if you want only to show Caps letters.
   final bool alwaysCaps;
 
-  VirtualKeyboard(
-      {Key? key,
-      required this.type,
-      required this.textController,
-      this.builder,
-      this.height = _virtualKeyboardDefaultHeight,
-      this.textColor = Colors.black,
-      this.fontSize = 14,
-      this.alwaysCaps = false})
-      : super(key: key);
+  /// Configure visual feedback (splash visible)
+  final bool visualFeedback;
+
+  VirtualKeyboard({
+    required this.type,
+    required this.textController,
+    this.builder,
+    this.height = _virtualKeyboardDefaultHeight,
+    this.textColor = Colors.black,
+    this.fontSize = 14,
+    this.alwaysCaps = false,
+    this.visualFeedback = true,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -190,21 +194,25 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   /// Creates default UI element for keyboard Key.
   Widget _keyboardDefaultKey(VirtualKeyboardKey key) {
     return Expanded(
-        child: InkWell(
-      onTap: () {
-        _onKeyPress(key);
-      },
-      child: Container(
-        height: height / _keyRows.length,
-        child: Center(
+      child: InkWell(
+        splashColor: widget.visualFeedback ? null : Colors.transparent,
+        highlightColor: widget.visualFeedback ? null : Colors.transparent,
+        onTap: () {
+          _onKeyPress(key);
+        },
+        child: Container(
+          height: height / _keyRows.length,
+          child: Center(
             child: Text(
-          alwaysCaps
-              ? key.capsText!
-              : (isShiftEnabled ? key.capsText! : key.text!),
-          style: textStyle,
-        )),
+              alwaysCaps
+                  ? key.capsText!
+                  : (isShiftEnabled ? key.capsText! : key.text!),
+              style: textStyle,
+            ),
+          ),
+        ),
       ),
-    ));
+    );
   }
 
   void _onKeyPress(VirtualKeyboardKey key) {
